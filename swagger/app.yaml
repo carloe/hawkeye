@@ -1,0 +1,77 @@
+swagger: "2.0"
+
+info:
+  title: "Hawkeye"
+  version: "1.0"
+
+basePath: /v1
+
+consumes:
+  - application/json
+produces:
+  - application/json
+
+paths:
+  /images:
+    post:
+      operationId: api.images.class_instance.post
+      consumes:
+         - multipart/form-data
+      parameters:
+         - in: formData
+           name: file
+           type: file
+           description: 'The file to upload.'
+           required: true
+      responses:
+        '200':
+          description: 'Room indexed'
+          schema:
+            type: object
+            items:
+              $ref: '#/definitions/DetectionResult'
+
+definitions:
+  DetectionResult:
+    type: object
+    properties:
+      uid:
+        type: string
+      image:
+        $ref: '#/definitions/Image'
+      objects:
+        type: array
+        $ref: '#/definitions/Object'
+
+  Image:
+    type: object
+    properties:
+      filename:
+        type: string
+      width:
+        type: integer
+      height:
+        type: integer
+
+  Object:
+    type: object
+    properties:
+      name:
+        type: string
+      confidence:
+        type: number
+        format: float
+      bounds:
+        $ref: '#/definitions/Bounds'
+
+  Bounds:
+    type: object
+    properties:
+      x:
+        type: integer
+      y:
+        type: integer
+      width:
+        type: integer
+      height:
+        type: integer
