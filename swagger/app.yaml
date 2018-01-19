@@ -44,10 +44,10 @@ paths:
                 - name: Cup
                   confidence: 0.9
                   bounds:
-                    x: 0.2
-                    y: 0.23
-                    width: 0.23
-                    height: 0.65
+                    min_x: 0.26
+                    min_y: 0.05
+                    max_x: 0.45
+                    max_y: 0.38
         default:
           description: error payload
           schema:
@@ -100,15 +100,15 @@ definitions:
   BoundsModel:
     type: object
     properties:
-      x:
+      min_x:
         type: number
         format: float
-      y:
+      min_y:
         type: number
         format: float
-      width:
+      max_x:
         type: number
         format: float
-      height:
+      max_y:
         type: number
         format: float

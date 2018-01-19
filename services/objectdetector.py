@@ -68,14 +68,17 @@ class ObjectDetector(object):
                     name = self.__category_index[clsid]['name']
                     box = boxes[0][i]
 
+                    if score > 0.8:
+                        print(box)
+
                     obj = {
                         "name": name,
                         "confidence": score,
                         "bounds": {
-                            "x": float(box[0]),
-                            "y": float(box[1]),
-                            "width": float(box[2]),
-                            "height": float(box[3]),
+                            "min_y": float(box[0]),
+                            "min_x": float(box[1]),
+                            "max_y": float(box[2]),
+                            "max_x": float(box[3]),
                         }
                     }
                     result.append(obj)
