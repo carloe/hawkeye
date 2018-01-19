@@ -38,7 +38,7 @@ class ObjectDetector(object):
         return np.array(image.getdata()).reshape(
             (im_height, im_width, 3)).astype(np.uint8)
 
-    def scan(self, image, outputDebugImage=False) -> dict:
+    def scan(self, image, limit=100, min_confidence=0.0, outputDebugImage=False) -> dict:
         result = []
 
         with self.__detection_graph.as_default():
@@ -63,25 +63,27 @@ class ObjectDetector(object):
                     [detection_boxes, detection_scores, detection_classes, num_detections], feed_dict={image_tensor: image_np_expanded})
 
                 for i in range(0, scores.size):
+
+                    if len(result) >= limit:
+                        break
+
                     score = float(scores[0][i])
                     clsid = classes[0][i]
                     name = self.__category_index[clsid]['name']
                     box = boxes[0][i]
 
-                    if score > 0.8:
-                        print(box)
-
-                    obj = {
-                        "name": name,
-                        "confidence": score,
-                        "bounds": {
-                            "min_y": float(box[0]),
-                            "min_x": float(box[1]),
-                            "max_y": float(box[2]),
-                            "max_x": float(box[3]),
+                    if score >= min_confidence:
+                        obj = {
+                            "name": name,
+                            "confidence": score,
+                            "bounds": {
+                                "min_y": float(box[0]),
+                                "min_x": float(box[1]),
+                                "max_y": float(box[2]),
+                                "max_x": float(box[3]),
+                            }
                         }
-                    }
-                    result.append(obj)
+                        result.append(obj)
 
                 if outputDebugImage == True:
                     # Visualization of the results for debugging.

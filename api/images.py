@@ -12,11 +12,11 @@ from services.objectdetector import ObjectDetector
 
 
 @inject(detector=ObjectDetector)
-def post(detector: ObjectDetector, file: FileStorage) -> dict:
+def post(detector: ObjectDetector, file: FileStorage, limit=100, confidence=0.0) -> dict:
     uid = str(uuid.uuid4())
 
     image = Image.open(BytesIO(file.stream.read()))
-    objects = detector.scan(image)
+    objects = detector.scan(image=image, limit=limit, min_confidence=confidence)
 
     width, height = image.size
 

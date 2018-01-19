@@ -26,6 +26,15 @@ paths:
            type: file
            description: The file to upload
            required: true
+         - in: query
+           name: limit
+           type: integer
+           description: The maximum numbers of items to return (default 100)
+         - in: query
+           name: confidence
+           type: number
+           format: float
+           description: Limits the response to objects above the supplid confidence (default 0.0)
       responses:
         '200':
           description: Detected objects
