@@ -1,49 +1,82 @@
-swagger: "2.0"
+swagger: '2.0'
 
 info:
-  title: "Hawkeye"
-  version: "1.0"
+  title: Hawkeye
+  version: '1.0'
+  description: An exercise in building a boilerplate computer vision micro service with Flask and TensorFlow
 
 basePath: /v1
 
 consumes:
-  - application/json
+  - multipart/form-data
 produces:
   - application/json
 
 paths:
   /images:
     post:
-      operationId: api.images.class_instance.post
+      description: Returns a list of objects that are detected in an image
+      summary: Detect objects in an image
+      operationId: api.images.post
       consumes:
          - multipart/form-data
       parameters:
          - in: formData
            name: file
            type: file
-           description: 'The file to upload.'
+           description: The file to upload
            required: true
       responses:
         '200':
-          description: 'Room indexed'
+          description: Detected objects
           schema:
             type: object
             items:
-              $ref: '#/definitions/DetectionResult'
+              $ref: '#/definitions/DetectionResultModel'
+          examples:
+            application/json:
+              uid: ad28fd2d-0053-4848-837b-e82d13f425fc
+              image:
+                filename: image.jpg
+                width: 640
+                height: 480
+              objects:
+                - name: Cup
+                  confidence: 0.9
+                  bounds:
+                    x: 0.2
+                    y: 0.23
+                    width: 0.23
+                    height: 0.65
+        default:
+          description: error payload
+          schema:
+            type: object
+            $ref: '#/definitions/ErrorModel'
 
 definitions:
-  DetectionResult:
+  ErrorModel:
+    type: object
+    properties:
+      code:
+        type: integer
+        example: 400
+      message:
+        type: string
+        example: Bad Request
+
+  DetectionResultModel:
     type: object
     properties:
       uid:
         type: string
       image:
-        $ref: '#/definitions/Image'
+        $ref: '#/definitions/ImageModel'
       objects:
         type: array
-        $ref: '#/definitions/Object'
+        $ref: '#/definitions/ObjectModel'
 
-  Image:
+  ImageModel:
     type: object
     properties:
       filename:
@@ -53,7 +86,7 @@ definitions:
       height:
         type: integer
 
-  Object:
+  ObjectModel:
     type: object
     properties:
       name:
@@ -62,16 +95,20 @@ definitions:
         type: number
         format: float
       bounds:
-        $ref: '#/definitions/Bounds'
+        $ref: '#/definitions/BoundsModel'
 
-  Bounds:
+  BoundsModel:
     type: object
     properties:
       x:
-        type: integer
+        type: number
+        format: float
       y:
-        type: integer
+        type: number
+        format: float
       width:
-        type: integer
+        type: number
+        format: float
       height:
-        type: integer
+        type: number
+        format: float
