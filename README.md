@@ -18,6 +18,18 @@ Python `3.6`
 
 Make a multipart `POST` request to `/v1/images` and pass an image in the `file` parameter to see what happens :)
 
+### Request Parameters
+
+| Name          | Type         | Required  |  Description                                                  |
+|---------------|--------------|-----------|---------------------------------------------------------------|
+| `file`        | `image/jpeg` | Yes       | The image you wish to scan of objects                         |
+| `limit`       | `Integer`    | No        | The max number of detected objects to return (default: `100`) |
+| `confidence`  | `Float`      | No        | The min confidence of objects to return (default: `0.0`)      |
+
+# Swagger
+
+Swagger UI can be accessed via `/v1/ui`
+
 # License
 
 MIT
