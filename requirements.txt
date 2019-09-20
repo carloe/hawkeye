@@ -1,11 +1,12 @@
 Flask
-connexion
-injector==0.12.0
+connexion[swagger-ui]
+injector
 Flask-Injector
 fastavro
-numpy
+numpy==1.16
 pandas
 tensorflow
 pillow
 lxml
 matplotlib
+click

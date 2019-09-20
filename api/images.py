@@ -11,7 +11,7 @@ from flask_injector import inject
 from services.objectdetector import ObjectDetector
 
 
-@inject(detector=ObjectDetector)
+@inject
 def post(detector: ObjectDetector, file: FileStorage, limit=100, confidence=0.0) -> dict:
     uid = str(uuid.uuid4())
 

@@ -1,9 +1,9 @@
-FROM python:3.6
+FROM python:3.7
 
 RUN mkdir /code
 WORKDIR /code
 ADD . /code/
 RUN pip install -r requirements.txt
 
-EXPOSE 9090
-CMD ["python", "/code/app.py"]
+ENTRYPOINT ["python", "app.py"]
+CMD ["--help"]

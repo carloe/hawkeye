@@ -22,8 +22,8 @@ class ObjectDetector(object):
     def __init__(self, gfpath: str, labelpath: str):
         self.__detection_graph = tf.Graph()
         with self.__detection_graph.as_default():
-            od_graph_def = tf.GraphDef()
-            with tf.gfile.GFile(gfpath, 'rb') as fid:
+            od_graph_def = tf.compat.v1.GraphDef()
+            with tf.io.gfile.GFile(gfpath, 'rb') as fid:
                 serialized_graph = fid.read()
                 od_graph_def.ParseFromString(serialized_graph)
                 tf.import_graph_def(od_graph_def, name='')
